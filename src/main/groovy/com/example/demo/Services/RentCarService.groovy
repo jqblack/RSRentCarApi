@@ -42,7 +42,7 @@ class RentCarService {
                 "  ${sector},\n" +
                 "  ${user}\n" +
                 ");"
-println(query);
+
         return sql.executeQueryInsertUpdate(query);
     }
 
@@ -60,6 +60,12 @@ println(query);
                 ";"
 
         return sql.executeQueryInsertUpdate(query)
+    }
+
+    Boolean RentarCar(){
+        String sql = ""
+
+        return sql
     }
 
 }

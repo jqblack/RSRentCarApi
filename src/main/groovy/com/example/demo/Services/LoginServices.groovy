@@ -65,4 +65,20 @@ class LoginServices {
             return false;
         }
     }
+    Map VerifiedLogin(String user, String pass){
+        String query = "SELECT \n" +
+                "  \"ID\",\n" +
+                "  \"ID_persona\",\n" +
+                "  username,\n" +
+                "  password,\n" +
+                "  fecha,\n" +
+                "  \"ID_tipoUsuario\",\n" +
+                "  \"currentScore\"\n" +
+                "FROM \n" +
+                "  public.\"t_Usuario\" AS U WHERE \n" +
+                "  U.username = '${user}' AND U.password = '${pass}' "
+
+        Map mapa = sql.executeQueryAsMap(query)
+        return mapa
+    }
 }

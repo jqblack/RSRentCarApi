@@ -42,6 +42,21 @@ class LoginController {
         }
     }
 
+    @RequestMapping(value="/login/verificar", method = RequestMethod.POST)
+    def LoginUser(@RequestBody Map  data) {
+
+        Map MapData = data
+
+        if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
+            MapData = MapData.data;
+
+            return loginServices.VerifiedLogin(MapData.user as String, MapData.pass as String)
+        }
+        else{
+            return MyCustomsRequests.TokenNoValido();
+        }
+    }
+
     @RequestMapping(value="/login/test", method = RequestMethod.GET)
     def TEST() {
         return loginServices.test()
