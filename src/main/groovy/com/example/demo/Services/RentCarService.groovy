@@ -42,7 +42,7 @@ class RentCarService {
                 "  ${sector},\n" +
                 "  ${user}\n" +
                 ");"
-
+println(query);
         return sql.executeQueryInsertUpdate(query);
     }
 

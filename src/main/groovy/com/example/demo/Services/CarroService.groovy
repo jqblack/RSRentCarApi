@@ -14,7 +14,7 @@ class CarroService {
 
     List GetAllCarbyRent(int idRent){
         String query = "SELECT \n" +
-                "  C.\"ID\" AS id,\n" +
+                "  C.\"ID\" AS \"ID\",\n" +
                 "  C.matricula,\n" +
                 "  C.scoreneeded,\n" +
                 "  C.\"ID_TipoCarro\",\n" +
@@ -32,7 +32,7 @@ class CarroService {
                 "  INNER JOIN public.\"t_Marca\" AS M\n" +
                 "  ON M.\"ID\" = C.\"ID\" WHERE C.activo = TRUE AND C.\"ID_RentCar\" = ${idRent}"
 
-        return sql.executeQueryAsList()
+        return sql.executeQueryAsList(query)
     }
 
     List GetAllCars(int idUser){
