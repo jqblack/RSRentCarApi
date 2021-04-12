@@ -17,17 +17,20 @@ class ComplementosServices {
                 "  count(CC.*)AS cantidad\n" +
                 "FROM \n" +
                 "  public.\"t_CurrentCarrosRentados\" as CC\n" +
-                "  WHERE CC.\"ID_Usuario\" = 1"
+                "  WHERE CC.\"ID_Usuario\" = ${idUser}"
 
         Map Mapa = sql.executeQueryAsMap(query)
 
 
-        query = "  SELECT \n" +
+        query = "SELECT \n" +
                 "  CC.\"ID_Carro\" AS idCar,\n" +
                 "  CC.\"ID_Usuario\" AS idUser,\n" +
-                "  CC.fecha\n" +
+                "  CC.fecha,\n" +
+                "  C.\"nombreCar\" AS nombre\n" +
                 "FROM \n" +
                 "  public.\"t_CurrentCarrosRentados\" AS CC\n" +
+                "  INNER JOIN PUBLIC.\"t_Carro\" as C\n" +
+                "  ON CC.\"ID_Carro\" = C.\"ID\" \n" +
                 "  WHERE CC.\"ID_Usuario\" = ${idUser}"
 
         Mapa.get("listaCarros", sql.executeQueryAsList(query))
