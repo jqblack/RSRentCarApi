@@ -61,4 +61,5 @@ println(query);
 
         return sql.executeQueryInsertUpdate(query)
     }
+
 }
