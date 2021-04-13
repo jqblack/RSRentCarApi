@@ -78,6 +78,8 @@ class RentCarService {
                 "  ${idRent} , ${cantDias}\n" +
                 ");"
 
+        println(query)
+
         return sql.executeQueryInsertUpdate(query)
     }
 
@@ -90,15 +92,24 @@ class RentCarService {
         List rentcars = sql.executeQueryAsList(query);
 
         query = "SELECT \n" +
-                "  CC.*,\n" +
+                "  CC.\"ID_Carro\",\n" +
+                "  cc.\"ID_Usuario\",\n" +
+                "  to_char(cc.fecha, 'DD/MM/YYYY') as fecha,\n" +
+                "  cc.\"ID_RentCar\",\n" +
+                "  cc.\"cantDias\",\n" +
+                "  cc.\"ID\" , "+
                 "  C.\"nombreCar\",\n" +
-                "  r.nombre as nombreRent\n" +
+                "  r.nombre as nombreRent, \nconcat(p.\"Nombre\",' ',p.\"Apellido\") as nombreUser " +
                 "FROM \n" +
                 "  public.\"t_CurrentCarrosRentados\" as CC\n" +
                 "  INNER JOIN PUBLIC.\"t_Carro\" as C\n" +
                 "  ON CC.\"ID_Carro\" = C.\"ID\"\n" +
                 "  INNER JOIN PUBLIC.\"t_RentCar\" AS R\n" +
                 "  ON CC.\"ID_RentCar\" = R.\"ID\"\n" +
+                "   INNER JOIN \"t_Usuario\" as U\n" +
+                "  on cc.\"ID_Usuario\" = u.\"ID\"\n" +
+                "  INNER JOIN \"t_Persona\" AS p\n" +
+                "  on p.\"ID\" = u.\"ID_persona\" "+
                 "  WHERE ( "
 
         println(rentcars.size());
@@ -126,6 +137,31 @@ class RentCarService {
 
         return []
 
+    }
+
+    Boolean CarDelivered(int ID, int score){
+        String query = "DELETE FROM \n" +
+                "  public.\"t_CurrentCarrosRentados\" \n" +
+                "WHERE \n" +
+                "  \"ID\" = ${ID}\n" +
+                ";"
+
+        if(sql.executeQueryInsertUpdate(query)){
+
+           query = "UPDATE \n" +
+                   "  public.\"t_HistorialRenta\" \n" +
+                   "SET \n" +
+                   "  score = ${score},\n" +
+                   "  \"fechaFin\" = now() \n" +
+                   "WHERE \n" +
+                   "id_current = ${ID}\n" +
+                   ";"
+
+            return sql.executeQueryInsertUpdate(query)
+        }
+        else{
+            return false
+        }
     }
 
 }

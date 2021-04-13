@@ -108,4 +108,24 @@ class RentCarController {
         }
     }
 
+    @RequestMapping(value="/rentcar/devolverCar", method = RequestMethod.POST)
+    def devolverCar(@RequestBody Map  data) {
+
+        Map MapData = data
+
+        if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
+            MapData = MapData.data;
+
+            if(rentCarService.CarDelivered(MapData.id as int, MapData.score as int)){
+                return MyCustomsRequests.MessageSuccess()
+            }
+            else{
+                return MyCustomsRequests.MessageFailed()
+            }
+        }
+        else{
+            return MyCustomsRequests.TokenNoValido();
+        }
+    }
+
 }
