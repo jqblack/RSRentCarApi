@@ -93,4 +93,19 @@ class RentCarController {
         }
     }
 
+    @RequestMapping(value="/rentcar/getcarrentados", method = RequestMethod.POST)
+    def GetRentados(@RequestBody Map  data) {
+
+        Map MapData = data
+
+        if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
+            MapData = MapData.data;
+
+            return rentCarService.GetRentados(MapData.idUser as int)
+        }
+        else{
+            return MyCustomsRequests.TokenNoValido();
+        }
+    }
+
 }

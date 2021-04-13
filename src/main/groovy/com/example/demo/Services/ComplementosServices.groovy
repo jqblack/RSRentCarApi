@@ -77,24 +77,30 @@ class ComplementosServices {
                         "  ON R.\"ID_Carro\" = C.\"ID\" " +
                 "  WHERE R.activo = TRUE AND ( "
 
-        if(rentcars.size() > 1){
-            for (int i = 0; i < rentcars.size(); i++) {
-                if(i == 0){
-                    query = query + "R.\"ID_RentCar\" = ${rentcars[i].idrentcar} OR "
-                }
-                else{
-                    query = query + "R.\"ID_RentCar\" = ${rentcars[i].idrentcar} )"
-                }
+        println(rentcars.size());
 
+        if(rentcars.size() > 0){
+            if(rentcars.size() > 1){
+                for (int i = 0; i < rentcars.size(); i++) {
+                    if(i == rentcars.size() -1){
+                        query = query + "R.\"ID_RentCar\" = ${rentcars[i].idrentcar} )"
+
+                    }
+                    else{
+                        query = query + "R.\"ID_RentCar\" = ${rentcars[i].idrentcar} OR "
+                    }
+
+                }
             }
-        }
-        else{
-            query = query + "C.\"ID_RentCar\" = ${rentcars[0].idrentcar} )"
+            else{
+                query = query + "R.\"ID_RentCar\" = ${rentcars[0].idrentcar} )"
+            }
+
+            println(query)
+            return sql.executeQueryAsList(query)
         }
 
-        println(query)
-        return sql.executeQueryAsList(query)
-
+        return []
     }
 
     Boolean CompletarAveria(int id){
