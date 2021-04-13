@@ -81,7 +81,7 @@ class RentCarController {
         if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
             MapData = MapData.data;
 
-            if(rentCarService.Update(MapData.nom as String, MapData.numpro as int, MapData.nummuni as int, MapData.numsec as int, MapData.iduser as int, MapData.idRent as int)){
+            if(rentCarService.RentarCar(MapData.idCar as int, MapData.idUser as int, MapData.idRent as int, MapData.cantDias as int)){
                 return MyCustomsRequests.MessageSuccess()
             }
             else{

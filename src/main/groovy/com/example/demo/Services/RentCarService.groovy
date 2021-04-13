@@ -62,10 +62,23 @@ class RentCarService {
         return sql.executeQueryInsertUpdate(query)
     }
 
-    Boolean RentarCar(){
-        String sql = ""
+    Boolean RentarCar(int idCar, int idUser, int idRent, int cantDias){
+        String query = "INSERT INTO \n" +
+                "  public.\"t_CurrentCarrosRentados\"\n" +
+                "(\n" +
+                "  \"ID_Carro\",\n" +
+                "  \"ID_Usuario\",\n" +
+                "  fecha,\n" +
+                "  \"ID_RentCar\" , \"cantDias\"\n" +
+                ")\n" +
+                "VALUES (\n" +
+                "  ${idCar},\n" +
+                "  ${idUser},\n" +
+                "  now(),\n" +
+                "  ${idRent} , ${cantDias}\n" +
+                ");"
 
-        return sql
+        return sql.executeQueryInsertUpdate(query)
     }
 
 }

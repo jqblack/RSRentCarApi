@@ -39,18 +39,18 @@ class ComplementosServices {
         return Mapa
     }
 
-    Boolean InsertReporte(int carro, String des, int idRent){
+    Boolean InsertReporte(int carro, String des, int idRent, int idUser){
         String query = "INSERT INTO \n" +
                 "  public.\"t_ReportesAveria\"\n" +
                 "(\n" +
                 "  \"ID_Carro\",\n" +
                 "  fecha,\n" +
-                "  descripcion, \"ID_RentCar\" \n" +
+                "  descripcion, \"ID_RentCar\",  \"idUser\" \n" +
                 ")\n" +
                 "VALUES (\n" +
                 "  ${carro},\n" +
                 "  now(),\n" +
-                "  '${des}' , ${idRent}\n" +
+                "  '${des}' , ${idRent}, ${idUser}\n" +
                 ");"
 
         return sql.executeQueryInsertUpdate(query)
@@ -67,11 +67,14 @@ class ComplementosServices {
 
                 query = "SELECT \n" +
                 "  R.*,\n" +
-                "  RC.nombre AS nombreRent\n" +
+                "  RC.nombre AS nombreRent ," +
+                        "  C.\"nombreCar\"\n" +
                 "FROM \n" +
                 "  public.\"t_ReportesAveria\" AS R \n" +
                 "  INNER JOIN PUBLIC.\"t_RentCar\" AS RC \n" +
                 "  ON R.\"ID_RentCar\" = RC.\"ID\"\n" +
+                        "   INNER JOIN public.\"t_Carro\" AS C \n" +
+                        "  ON R.\"ID_Carro\" = C.\"ID\" " +
                 "  WHERE R.activo = TRUE AND ( "
 
         if(rentcars.size() > 1){
@@ -92,6 +95,18 @@ class ComplementosServices {
         println(query)
         return sql.executeQueryAsList(query)
 
+    }
+
+    Boolean CompletarAveria(int id){
+        String query = "UPDATE \n" +
+                "  public.\"t_ReportesAveria\" \n" +
+                "SET \n" +
+                "  activo = false\n" +
+                "WHERE \n" +
+                "  \"ID\" = ${id}\n" +
+                ";"
+
+        return sql.executeQueryInsertUpdate(query)
     }
 
 }

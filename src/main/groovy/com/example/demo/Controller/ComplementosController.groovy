@@ -39,7 +39,7 @@ class ComplementosController {
         if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
             MapData = MapData.data;
 
-            if(complementosServices.InsertReporte(MapData.idCar as int, MapData.descri as String, MapData.idRent as int)){
+            if(complementosServices.InsertReporte(MapData.idCar as int, MapData.descri as String, MapData.idRent as int, MapData.idUser as int)){
                 return MyCustomsRequests.MessageSuccess()
             }
             else{
@@ -60,6 +60,26 @@ class ComplementosController {
             MapData = MapData.data;
 
             return complementosServices.GetAverias(MapData.idUser as int)
+        }
+        else{
+            return MyCustomsRequests.TokenNoValido();
+        }
+    }
+
+    @RequestMapping(value="/complementos/completaraveria", method = RequestMethod.POST)
+    def CompletarAveria(@RequestBody Map  data) {
+
+        Map MapData = data
+
+        if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
+            MapData = MapData.data;
+
+            if(complementosServices.CompletarAveria(MapData.idadv as int)){
+                return MyCustomsRequests.MessageSuccess()
+            }
+            else{
+                return MyCustomsRequests.MessageFailed()
+            }
         }
         else{
             return MyCustomsRequests.TokenNoValido();
