@@ -35,6 +35,35 @@ class CarroService {
         return sql.executeQueryAsList(query)
     }
 
+    List getcarClient(int scoreUser){
+        String query = "SELECT \n" +
+                "  C.\"ID\",\n" +
+                "  C.matricula,\n" +
+                "  C.scoreneeded,\n" +
+                "  C.\"ID_TipoCarro\",\n" +
+                "  C.\"ID_RentCar\",\n" +
+                "  C.\"ID_Color\",\n" +
+                "  C.\"ID_Marca\",\n" +
+                "  C.\"ID_Categoria\",\n" +
+                "  C.\"ID_status\",\n" +
+                "  C.\"precioAlquiler\",\n" +
+                "  C.\"nombreCar\",\n" +
+                "  C.\"imgCar\",\n" +
+                "  C.activo,\n" +
+                "  M.descripcion AS marca,\n" +
+                "  R.nombre AS nombrerent\n" +
+                "FROM \n" +
+                "  public.\"t_Carro\" AS C\n" +
+                "  INNER JOIN PUBLIC.\"t_RentCar\" AS R\n" +
+                "  ON C.\"ID_RentCar\" = R.\"ID\"\n" +
+                "  INNER JOIN PUBLIC.\"t_Marca\" AS M\n" +
+                "  ON C.\"ID_Marca\" = M.\"ID\"\n" +
+                "  WHERE C.activo = TRUE AND C.scoreneeded <= ${scoreUser}"
+
+        return sql.executeQueryAsList(query)
+    }
+
+
     List GetAllCars(int idUser){
         String query = "SELECT \n" +
                 "  R.\"ID\" AS idRentCar\n" +

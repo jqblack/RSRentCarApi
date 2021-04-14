@@ -139,7 +139,7 @@ class RentCarService {
 
     }
 
-    Boolean CarDelivered(int ID, int score){
+    Boolean CarDelivered(int ID, int score, int idCar){
         String query = "DELETE FROM \n" +
                 "  public.\"t_CurrentCarrosRentados\" \n" +
                 "WHERE \n" +
@@ -157,7 +157,21 @@ class RentCarService {
                    "id_current = ${ID}\n" +
                    ";"
 
-            return sql.executeQueryInsertUpdate(query)
+            if(sql.executeQueryInsertUpdate(query)){
+                query = "UPDATE \n" +
+                        "  public.\"t_Carro\" \n" +
+                        "SET \n" +
+                        "\n" +
+                        "  activo = TRUE\n" +
+                        "WHERE \n" +
+                        "  \"ID\" = ${idCar}\n" +
+                        ";"
+
+                return sql.executeQueryInsertUpdate(query)
+            }
+            else{
+                return false
+            }
         }
         else{
             return false

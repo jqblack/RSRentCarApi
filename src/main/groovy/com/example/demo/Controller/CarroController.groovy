@@ -48,6 +48,21 @@ class CarroController {
         }
     }
 
+    @RequestMapping(value="/car/getcarClient", method = RequestMethod.POST)
+    def getcarClient(@RequestBody Map  data) {
+
+        Map MapData = data
+
+        if(MapData.key == "416063c3d13d79e6e99a702fcd9cea10"){
+            MapData = MapData.data;
+
+            return carroService.getcarClient(MapData.score as int)
+        }
+        else{
+            return MyCustomsRequests.TokenNoValido();
+        }
+    }
+
     @RequestMapping(value="/car/insert", method = RequestMethod.POST)
     def Insert(@RequestBody Map  data) {
 
