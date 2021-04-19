@@ -111,7 +111,7 @@ class CarroService {
         return sql.executeQueryAsList(query)
     }
 
-    Boolean Insert(String matri, Float score,int tipocar, int idRent, int idColor, int idMarca, int idCate, int precio, String nom){
+    Boolean Insert(String matri, Float score,int tipocar, int idRent, int idColor, int idMarca, int idCate, int precio, String nom, String image){
         String query = "INSERT INTO \n" +
                 "  public.\"t_Carro\"\n" +
                 "(\n" +
@@ -124,7 +124,7 @@ class CarroService {
                 "  \"ID_Categoria\",\n" +
                 "  \"ID_status\",\n" +
                 "  \"precioAlquiler\",\n" +
-                "  \"nombreCar\"\n" +
+                "  \"nombreCar\", \"imgCar\"\n" +
                 ")\n" +
                 "VALUES (\n" +
                 "  '${matri}',\n" +
@@ -136,7 +136,7 @@ class CarroService {
                 "  ${idCate},\n" +
                 "  1,\n" +
                 "  ${precio},\n" +
-                "  '${nom}'\n" +
+                "  '${nom}' , '${image}'\n" +
                 ");"
 
         return sql.executeQueryInsertUpdate(query)

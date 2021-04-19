@@ -72,7 +72,7 @@ class CarroController {
             MapData = MapData.data;
 
             if(carroService.Insert(MapData.matri as String, MapData.score as Float, MapData.tipo as int, MapData.idRent as int, MapData.idColor as int, MapData.idMarca as int,
-            MapData.idCate as int,MapData.precio as int, MapData.nombre as String)){
+            MapData.idCate as int,MapData.precio as int, MapData.nombre as String, MapData.imgCar as String)){
                 return MyCustomsRequests.MessageSuccess()
             }
             else{
