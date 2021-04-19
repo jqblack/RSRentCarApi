@@ -39,8 +39,16 @@ class ComplementosServices {
         return Mapa
     }
 
-    Boolean InsertReporte(int carro, String des, int idRent, int idUser){
-        String query = "INSERT INTO \n" +
+    Boolean InsertReporte(int carro, String des, int idUser){
+        String query = "SELECT \n" +
+                "  c.\"ID_RentCar\"\n" +
+                "FROM \n" +
+                "  public.\"t_Carro\" as c\n" +
+                "  where c.\"ID\" = ${carro}"
+
+        Map mapa = sql.executeQueryAsMap(query)
+
+         query = "INSERT INTO \n" +
                 "  public.\"t_ReportesAveria\"\n" +
                 "(\n" +
                 "  \"ID_Carro\",\n" +
@@ -50,7 +58,7 @@ class ComplementosServices {
                 "VALUES (\n" +
                 "  ${carro},\n" +
                 "  now(),\n" +
-                "  '${des}' , ${idRent}, ${idUser}\n" +
+                "  '${des}' , ${mapa.ID_RentCar}, ${idUser}\n" +
                 ");"
 
         return sql.executeQueryInsertUpdate(query)
@@ -113,6 +121,30 @@ class ComplementosServices {
                 ";"
 
         return sql.executeQueryInsertUpdate(query)
+    }
+
+    Map CantidadCarros(int idUser){
+        String query = "  SELECT \n" +
+                "  COUNT(*) AS cantRentados\n" +
+                "  FROM \n" +
+                "  PUBLIC.\"t_CurrentCarrosRentados\" AS CCR\n" +
+                "  WHERE CCR.\"ID_Usuario\" = ${idUser}"
+
+        Map mapaRes = [:]
+        mapaRes.put("cantidad",sql.executeQueryAsMap(query).cantRentados)
+
+        query = "  SELECT \n" +
+                "  concat(C.\"nombreCar\",' - ',C.matricula) AS label,\n" +
+                "  C.\"ID\" as value\n" +
+                "  FROM PUBLIC.\"t_CurrentCarrosRentados\" AS CCR\n" +
+                "  INNER JOIN PUBLIC.\"t_Carro\" AS C\n" +
+                "  ON CCR.\"ID_Carro\" = C.\"ID\"\n" +
+                "  WHERE CCR.\"ID_Usuario\" = ${idUser}"
+
+        mapaRes.put("listaDrop",sql.executeQueryAsList(query))
+
+
+        return mapaRes
     }
 
 }
